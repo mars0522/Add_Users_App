@@ -2,21 +2,25 @@ import React, { useState } from "react";
 import Card from "../UI/Card";
 import classes from "./AddUser.module.css";
 import Button from "../UI/Button";
-function AddUser() {
+function AddUser(props) {
   const [user, setuser] = useState("");
   const [age, setage] = useState("");
 
   const submitHandler = (event) => {
     event.preventDefault();
-      if (user.trim().length === 0 || age.trim().length === 0) {
-          return;
-      }
-      if (+age < 1) {
-          return;
-      }
-      console.log(user, age);
-      setage('');
-      setuser('');
+    if (user.trim().length === 0 || age.trim().length === 0) {
+      return;
+    }
+    if (+age < 1) {
+      return;
+    }
+    const userDetail = {
+      name: user,
+      age: age,
+    };
+      props.getUserDetails(userDetail);
+    setage("");
+    setuser("");
   };
 
   const userCollector = (event) => {
@@ -30,10 +34,15 @@ function AddUser() {
     <Card className={classes.input}>
       <form onSubmit={submitHandler}>
         <label htmlFor="username">User Name</label>
-        <input id="username" type="text" value={user} onChange={userCollector} />
+        <input
+          id="username"
+          type="text"
+          value={user}
+          onChange={userCollector}
+        />
         <label htmlFor="age">Age(Years)</label>
-              <input id="age" type="number" value={age } onChange={ageCollector} />
-        <Button type='submit'>Add User</Button>
+        <input id="age" type="number" value={age} onChange={ageCollector} />
+        <Button type="submit">Add User</Button>
       </form>
     </Card>
   );
